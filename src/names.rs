@@ -11,7 +11,7 @@ static NAMES: &'static [&'static str] = &[
     "Tube",
 ];
 
-fn main() {
+fn main2() {
     let mut current = 0;
     let max = 10000;
 
