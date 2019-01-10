@@ -1,55 +1,35 @@
 
-#[derive(Debug)]
-struct Person {
-    name: String,
-    age: i32,
-    occupation: String,
+fn search<'a, 'b>(needle: &'a str, haystack: &'b str) -> Option<&'a str> {
+    let mut checking_index = 0;
+    let mut found = false;
+
+    for c in haystack.chars() {
+        if needle.chars().nth(checking_index) == Some(c) {
+            checking_index += 1;
+            if checking_index == needle.len() {
+                found = true;
+                break;
+            }
+        } else {
+            checking_index = 0;
+            found = false;
+        }
+    }
+
+    if found {
+        Some(needle)
+    } else {
+        None
+    }
 }
 
 fn main() {
-    println!("Starting");
+    let haystack = "hello little person";
+    let needle = String::from("ello l");
+    let res = search(&needle, haystack);
 
-    let mark = Person {
-        age: 32,
-        name: String::from("Mark"),
-        occupation: String::from("CEO")
-    };
-    
-    let mut mark_clone = Person {
-        age: 32,
-        name: String::from("Mark"),
-        occupation: String::from("CEO")
-    };
-
-    let steve = Person {
-        age: 45,
-        name: String::from("Steve"),
-        occupation: String::from("QA"),
-    };
-
-    println!("{:?}", mark);
-    println!("{:?}", steve);
-
-    let same: bool = people_eq(&mark, &steve);
-    println!("Are mark and steve the same? {}", same);
-
-    let same: bool = people_eq(&mark, &mark_clone);
-    println!("Are mark and mark the same? {}", same);
-
-    mark_clone.name = String::from("Joe");
-
-    let same: bool = people_eq(&mark, &mark_clone);
-    println!("Are mark and mark the same? {}", same);
-}
-
-fn people_eq(person_one: &Person, person_two: &Person) -> bool {
-    if person_one.age != person_two.age {
-        return false;
-    } else if person_one.name != person_two.name {
-        return false;
-    } else if person_one.occupation != person_two.occupation {
-        return false;
+    match res {
+        Some(x) => println!("found \"{}\"", x),
+        None => println!("did not find!"),
     }
-
-    true
 }
